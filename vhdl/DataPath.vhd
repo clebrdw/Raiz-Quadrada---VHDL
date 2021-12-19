@@ -10,10 +10,10 @@ package datapath_package is
 component DataPath is
 	generic( n	:	integer:= 8); 
 	port (
-		input 				:	in 		std_logic_vector(n-1 downto 0);
-		sel,clk,en,rst_n	: 	in		std_logic;
-		done				:	out 	std_logic;
-		resultado			: 	out		std_logic_vector((n/2)-1 downto 0)
+		input 			:	in 	std_logic_vector(n-1 downto 0);
+		sel,clk,en,rst_n	: 	in	std_logic;
+		done			:	out 	std_logic;
+		resultado		: 	out	std_logic_vector((n/2)-1 downto 0)
 	);
 end component;
 
@@ -32,10 +32,10 @@ library work;
 entity DataPath is
 	generic( n	:	integer:= 8); 
 	port(
-		input 				:	in 		std_logic_vector(n-1 downto 0);
-		sel,clk,en,rst_n	: 	in		std_logic;
-		done				:	out 	std_logic;
-		resultado			: 	out		std_logic_vector((n/2)-1 downto 0)
+		input 			:	in 	std_logic_vector(n-1 downto 0);
+		sel,clk,en,rst_n	: 	in	std_logic;
+		done			:	out 	std_logic;
+		resultado		: 	out	std_logic_vector((n/2)-1 downto 0)
 	);
 end DataPath;
 
@@ -45,20 +45,19 @@ architecture estrutural of DataPath is
 	--Sinais utilizados
 	signal resultado_temp 	: std_logic_vector((n/2)-1 downto 0);
 	signal reg_square_temp 	: std_logic_vector(n-1 downto 0);
-	signal fio_reg_root		: std_logic_vector((n/2)-1 downto 0);
+	signal fio_reg_root	: std_logic_vector((n/2)-1 downto 0);
 	signal fio_reg_square	: std_logic_vector(n-1 downto 0);
-	signal fio_mux_out		: std_logic_vector(n-1 downto 0);
-	signal sub_out			: std_logic_vector(n-1 downto 0);
+	signal fio_mux_out	: std_logic_vector(n-1 downto 0);
 	signal fio_sum_square	: std_logic_vector(n-1 downto 0);
-	signal fio_sum_root		: std_logic_vector((n/2)-1 downto 0);
+	signal fio_sum_root	: std_logic_vector((n/2)-1 downto 0);
 	
 	--Sinais input
-	--signal set_zero		: std_logic := 0;
-	--signal set_one		: std_logic := 1;
+	--signal set_zero	: std_logic := 0;
+	--signal set_one	: std_logic := 1;
 	
 	-- Utilizar constantes para definir valores nas entradas
-	constant set_zero		: std_logic := '0';
-	constant set_one		: std_logic := '1';
+	constant set_zero	: std_logic := '0';
+	constant set_one	: std_logic := '1';
 
 begin
 	
@@ -73,9 +72,6 @@ begin
 	-- Atualizando a saida do registrador "Reg_root"
 	resultado <= resultado_temp;
 	
-	-- Valor MSB do resultado da subtracao, indica termino do algoritmo
-	done <= sub_out(n-1);
-	
 	-- Shift Right do Splitter entre 'fio_reg_root' e 'reg_square'
 	fio_sum_square(0)	<=	'0';
 	SHIFT_RIGHT_GEN: for i in 0 to (n/2)-2 generate
@@ -85,10 +81,7 @@ begin
 	ESTENDE: for i in (n/2) to n-1 generate
 		fio_sum_square(i) <= '0';
 	end generate ESTENDE;
-		
-	--### TESTE - Debug ###
-	--r_square <= reg_square_temp;
-	--r_bef_square <= fio_reg_square;
+
 	
 	-- Somador Reg_root
 	SUM_Reg_root: entity work.Adder(dataflow)
@@ -117,7 +110,7 @@ begin
 		generic map((n/2)) 
 		port map(
 			datain		=>	fio_reg_root,	
-			set			=>	set_one,	-- 1
+			set		=>	set_one,	-- 1
 			reset		=>	rst_n,
 			enable		=>	en,
 			clock		=>	clk,
@@ -129,7 +122,7 @@ begin
 		generic map(n) 
 		port map(
 			datain		=>	fio_reg_square,	
-			set			=>	set_one, -- 1
+			set		=>	set_one, -- 1
 			reset		=>	rst_n,
 			enable		=>	en,
 			clock		=>	clk,
@@ -140,9 +133,9 @@ begin
 	MUX_reg_square: entity work.mux_2_1(dataflow)
 		generic map(n) 
 		port map(
-			A0			=>	reg_square_temp,
-			A1			=>	CONV_STD_LOGIC_VECTOR(4, n), -- Converte '4' para n bits de dados
-			s0			=>	sel,
+			A0		=>	reg_square_temp,
+			A1		=>	CONV_STD_LOGIC_VECTOR(4, n), -- Converte '4' para n bits de dados
+			s0		=>	sel,
 			result		=>	fio_mux_out
 		);
 	
@@ -154,7 +147,7 @@ begin
 			input1    	=>	reg_square_temp,
 			carry_in  	=>	set_zero,	
 			ctrl      	=>	set_one,	-- Subtrator
-			result    	=>	sub_out,	-- result[0] == 1 eh negativo, result[0] => done
-			carry_out	=>	open
+			result    	=>	open,	
+			carry_out	=>	done		-- done quando subtracao e negativa
 		);
 end estrutural;

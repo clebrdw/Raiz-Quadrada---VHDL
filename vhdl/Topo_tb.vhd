@@ -23,11 +23,11 @@ architecture tb of Topo_tb is
 component Topo
 	generic(n	:	integer := n_bits);
 	port (
-		clk     		: 	in std_logic;
-		rst_n   		: 	in std_logic;
-		input   		: 	in std_logic_vector(n-1 downto 0);
-		result  		: 	out std_logic_vector((n/2)-1 downto 0);
-		done   			:	out std_logic	
+		clk     	: 	in std_logic;
+		rst_n   	: 	in std_logic;
+		input   	: 	in std_logic_vector(n-1 downto 0);
+		result  	: 	out std_logic_vector((n/2)-1 downto 0);
+		done   		:	out std_logic	
 	);
 end component;
 

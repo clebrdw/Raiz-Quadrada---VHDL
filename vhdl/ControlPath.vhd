@@ -11,7 +11,7 @@ component DataPath is
 	generic( n	:	integer:= 8); 
 	port (
 		clk, rst_n, done	:	in std_logic;
-		sel, en				:	out std_logic
+		sel, en			:	out std_logic
 	);
 end component;
 
@@ -23,7 +23,7 @@ library ieee;
 entity ControlPath is
 	port(
 		clk, rst_n, done	:	in std_logic;
-		sel, en				:	out std_logic
+		sel, en			:	out std_logic
 	);
 end entity;
 

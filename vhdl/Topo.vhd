@@ -11,10 +11,10 @@ library work; --importacao de bibliotecas locais
 entity Topo is
 	generic(n	:	integer := 8);
 	port(
-		clk, rst_n		:	in 	std_logic;
-		input			:	in	std_logic_vector(n-1 downto 0);
-		result			:	out	std_logic_vector((n/2)-1 downto 0);
-		done			:	out	std_logic			
+		clk, rst_n	:	in 	std_logic;
+		input		:	in	std_logic_vector(n-1 downto 0);
+		result		:	out	std_logic_vector((n/2)-1 downto 0);
+		done		:	out	std_logic			
 	);
 end Topo;
 
@@ -29,23 +29,23 @@ begin
 
 	ControlPath: entity work.ControlPath(mealy)
 		port map(
-				clk 	=> clk,
-				rst_n 	=> rst_n,
-				done	=> s_done,
-				sel 	=> s_sel,
-				en		=> s_en
+			clk 	=> clk,
+			rst_n 	=> rst_n,
+			done	=> s_done,
+			sel 	=> s_sel,
+			en	=> s_en
 		);
 		
 	DataPath	: entity work.DataPath(estrutural)
 		generic map(n)
 		port map(
-				clk		=> clk,
-				rst_n	=> rst_n,
-				done	=> s_done,
-				sel 	=> s_sel,
-				en		=> s_en,	
-				input 	=> i_input,
-				resultado => o_result
+			clk		=> clk,
+			rst_n	=> rst_n,
+			done	=> s_done,
+			sel 	=> s_sel,
+			en	=> s_en,	
+			input 	=> i_input,
+			resultado => o_result
 		);
 		
 	-- Atualiza valores 
