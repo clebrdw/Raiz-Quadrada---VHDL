@@ -1,10 +1,6 @@
 <h1 align="center">Raiz Quadrada - VHDL</h1>
-<<<<<<< HEAD
-<h3 align="center">Descrição de Hardware de um código que calcula a parte inteira da raiz quadrada de números positivos.</h3>
-=======
-<h3 align="center">Descrição de Hardware de um código que calcula a raiz quadrada de números positívos.</h3>
->>>>>>> 89b60adf628faf0a93a366887d781373a44c7ab2
 
+<h3 align="center">Descrição de Hardware de um código que calcula a parte inteira da raiz quadrada de números positivos.</h3>
 
 ## Resumo
 <p align="justify"> 
